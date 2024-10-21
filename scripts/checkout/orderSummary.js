@@ -3,6 +3,7 @@ import {products, getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
+import {renderPaymentSummary} from './paymentSummary.js';
 
 export function renderOrderSummary(){
     let cartSumaryHTML = '';
@@ -71,7 +72,9 @@ export function renderOrderSummary(){
 
             const container = document.querySelector(`.js-cart-item-container-${productId}`);
             container.remove();
-            checkout();
+
+            renderPaymentSummary();
+            setQuantity();
         });
     });
 
@@ -94,22 +97,25 @@ export function renderOrderSummary(){
             const productQuantity = document.querySelector(`.js-quantity-input-${productId}`);
 
             updateQuantity(productId, productQuantity);
-            checkout();
+            renderPaymentSummary();
+            setQuantity();
         });
     });
 
-    checkout();
+    setQuantity();
     
     document.querySelectorAll('.js-delivery-option').forEach(element => {
         element.addEventListener('click', () => {
             const {productId, deliveryOptionId} = element.dataset;
             updateDeliveryOption(productId, deliveryOptionId);
             renderOrderSummary();
+            renderPaymentSummary();
+            setQuantity();
         });
     });
 }
 
-function checkout(){
+function setQuantity(){
     document.querySelectorAll('.js-total-items').forEach(item => {
         item.innerHTML = `${calculateQuantity()}`;
     });
