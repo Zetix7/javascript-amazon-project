@@ -1,14 +1,14 @@
 class Cart{
     cartItems;
-    localStorageKey;
+    #localStorageKey;
 
     constructor(localStorageKey){
-        this.localStorageKey = localStorageKey;
-        this.loadFromStorage();
+        this.#localStorageKey = localStorageKey;
+        this.#loadFromStorage();
     }
 
-    loadFromStorage(){
-        this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey)) || [{
+    #loadFromStorage(){
+        this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey)) || [{
             id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
             quantity: 2,
             deliveryOptionId: '1'
@@ -20,8 +20,8 @@ class Cart{
         }];
     }
     
-    saveToCart(){
-        localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    #saveToCart(){
+        localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
     }
     
     addToCart(productId){
@@ -48,7 +48,7 @@ class Cart{
             });
         }
     
-        this.saveToCart();
+        this.#saveToCart();
     }
     
     removeFromCart(productId){
@@ -61,7 +61,7 @@ class Cart{
         });
         this.cartItems = newCart;
     
-        this.saveToCart();
+        this.#saveToCart();
     }
     
     updateCartQuantity(){
@@ -89,7 +89,7 @@ class Cart{
                 document.querySelector(`.js-cart-quantity-${productId}`).innerHTML = newQuantity;
             }
         });
-        this.saveToCart();
+        this.#saveToCart();
     }
     
     updateDeliveryOption(productId, deliveryOptionId){
@@ -105,7 +105,7 @@ class Cart{
             foundProduct.deliveryOptionId = deliveryOptionId;
         }
     
-        this.saveToCart();
+        this.#saveToCart();
     }
 }
 
