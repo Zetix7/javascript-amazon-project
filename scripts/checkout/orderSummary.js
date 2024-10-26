@@ -1,4 +1,4 @@
-import {cart, removeFromCart, calculateQuantity, updateQuantity, updateDeliveryOption} from '../../data/cart.js';
+import {cart} from '../../data/cart-class.js';
 import {products, getProduct} from '../../data/products.js';
 import {formatCurrency} from '../utils/money.js';
 import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js';
@@ -9,7 +9,7 @@ import { calculateDeliveryDate } from './deliveryOption.js';
 export function renderOrderSummary(){
     let cartSumaryHTML = '';
 
-    cart.forEach(cartItem => {
+    cart.cartItems.forEach(cartItem => {
         const productId = cartItem.id;
 
         const productFound = getProduct(productId);
@@ -67,7 +67,7 @@ export function renderOrderSummary(){
     document.querySelectorAll('.js-delete-link').forEach(link => {
         link.addEventListener('click', () => {
             const productId = link.dataset.productId;
-            removeFromCart(productId);
+            cart.removeFromCart(productId);
 
             renderOrderSummary();
             renderPaymentSummary();
@@ -97,7 +97,7 @@ export function renderOrderSummary(){
     document.querySelectorAll('.js-delivery-option').forEach(element => {
         element.addEventListener('click', () => {
             const {productId, deliveryOptionId} = element.dataset;
-            updateDeliveryOption(productId, deliveryOptionId);
+            cart.updateDeliveryOption(productId, deliveryOptionId);
             renderOrderSummary();
             renderPaymentSummary();
             renderCheckoutHeader();
@@ -137,7 +137,7 @@ function updateOrderSummary(productId){
     container.classList.remove('is-editing-quantity');
 
     const productQuantity = document.querySelector(`.js-quantity-input-${productId}`);
-    productQuantity.value <= 0 ? removeFromCart(productId) : updateQuantity(productId, productQuantity);
+    productQuantity.value <= 0 ? cart.removeFromCart(productId) : cart.updateQuantity(productId, productQuantity);
 
     renderOrderSummary();
     renderPaymentSummary();

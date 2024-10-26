@@ -1,4 +1,4 @@
-import {cart, addToCart, updateCartQuantity} from '../data/cart.js';
+import {cart} from '../data/cart-class.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
@@ -67,8 +67,8 @@ document.querySelectorAll('.js-add-to-cart').forEach(button => {
     button.addEventListener('click', () => {
         const productId = button.dataset.productId;
         
-        addToCart(productId);
-        updateCartQuantity()
+        cart.addToCart(productId);
+        cart.updateCartQuantity()
         showHideMessageAdded(productId);
     });
 });
@@ -88,4 +88,4 @@ function showHideMessageAdded(productId){
         }, 2000);
 }
 
-updateCartQuantity();
+cart.updateCartQuantity();

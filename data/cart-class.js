@@ -26,8 +26,8 @@ class Cart{
     
     addToCart(productId){
         const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
-        // const quantity = Number(quantitySelector.value);
-        const quantity = 1;
+        const quantity = Number(quantitySelector.value);
+        // const quantity = 1;
         
         let foundProduct;
     
@@ -65,7 +65,7 @@ class Cart{
     }
     
     updateCartQuantity(){
-        let cartQuantity = calculateQuantity();
+        let cartQuantity = this.calculateQuantity();
     
         document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
     }
@@ -83,7 +83,7 @@ class Cart{
             
         const newQuantity = Number(newProductQuantity.value);
     
-        cart.forEach(product => {
+        this.cartItems.forEach(product => {
             if(product.id === productId){
                 product.quantity = newQuantity;
                 document.querySelector(`.js-cart-quantity-${productId}`).innerHTML = newQuantity;
@@ -109,10 +109,5 @@ class Cart{
     }
 }
 
-const cart = new Cart('cart-opp');
+export const cart = new Cart('cart-opp');
 const businessCart = new Cart('cart-business');
-
-console.log(cart);
-console.log(businessCart);
-console.log(cart instanceof Cart);
-console.log(businessCart instanceof Cart);
