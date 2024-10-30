@@ -111,3 +111,16 @@ class Cart{
 
 export const cart = new Cart('cart-opp');
 const businessCart = new Cart('cart-business');
+
+export function loadCart(fun){
+    const xhr = new XMLHttpRequest();
+  
+    xhr.open('GET', 'https://supersimplebackend.dev/cart');
+    xhr.send();
+    
+    xhr.addEventListener('load', () => {
+      console.log(xhr.response);
+  
+      fun();
+    });
+  }
